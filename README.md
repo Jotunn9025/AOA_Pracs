@@ -33,7 +33,8 @@ Welcome to my casual corner for algorithmic practice! This is where I tackle cla
 11. Sum of Subsets (Backtracking)  
 12. N‑Queens (Backtracking)  
 13. Rabin–Karp String Search  
-
+---
+The C version is still incomplete, I might not get to it since i prefer writing in python.
 ---
 Happy coding! 🎉  
 

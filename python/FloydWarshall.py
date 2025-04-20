@@ -16,4 +16,6 @@ graph=[
     [inf, inf, inf, inf, 6  , 0  ]
 ]
 floydWarshall(graph)
-print([[val for val in row]for row in graph])
+for row in graph:
+    print("".join([f"{str(val):4s}" for val in row]))# this is just for foramtting output u can just print next line
+    #print([val for val in row])
