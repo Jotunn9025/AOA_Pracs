@@ -1,55 +1,74 @@
 #include <stdio.h>
 #include <limits.h>
-
-#define V 4  
-
-int findMinDistance(int distance[],int visited[]) {//min dist funct
-    int min=INT_MAX;
-    int min_index=-1;
-    for (int v=0; v<V; v++) {
-        if (!visited[v] && distance[v]<min) {
-            min=distance[v];
-            min_index=v;
-        }
-    }
-    return min_index;
-}
-
-void Dijkstra(int graph[V][V],int source) {
-    int distance[V];
-    int visited[V];
-
-    for (int i=0; i<V; i++) {
-        distance[i]=INT_MAX;
-        visited[i]=0;
-    }
+void Djikstras(int graph[10][10],int distance[10],int v,int source,int visited[10]){
+    visited[source]=1;
     distance[source]=0;
-    for (int count=0; count<V - 1; count++) {
-        int u=findMinDistance(distance,visited);//first min dist will always be 0,0 for source 0 i.e first visit is to 0
-        if (u == -1) break;  
-        visited[u]=1;
-
-        for (int v=0; v<V; v++) {
-            if (graph[u][v] && !visited[v] && distance[u] != INT_MAX &&
-                distance[u] + graph[u][v]<distance[v]) {
-                distance[v]=distance[u] + graph[u][v];
+    for (int i=0;i<v;i++){
+        if (graph[source][i]!=INT_MAX)
+            distance[i]=graph[source][i];
+    }
+    int curr_vertex=source;
+    int minvertex=-1;
+    int min=INT_MAX;
+    while (1){
+        int visitcount=0;
+        for (int i=0;i<v;i++){
+            if (visited[i])
+                visitcount++;
+        }
+        if (visitcount==v)
+            break;
+        int minvertex=-1;
+        int min=INT_MAX;
+        for(int i=0;i<v;i++){
+            if (distance[i]<min && !visited[i]){
+                min=distance[i];
+                minvertex=i;
+            } 
+        }
+        if (minvertex==-1){
+            printf("cant reach");
+            return;
+        }
+        visited[minvertex]=1;   
+        for(int i=0;i<v;i++){
+            if (!visited[i]&& graph[minvertex][i]!=INT_MAX){
+                int travel=distance[minvertex]+graph[minvertex][i];
+                distance[i]=distance[i]<travel?distance[i]:travel;
             }
         }
-    }
-
-    printf("shoterst dist from %d:\n",source);
-    for (int i=0; i<V; i++) {
-        printf("to %d: %d\n",i,distance[i]);
     }
 }
 
 int main() {
-    int graph[V][V]={//example
-        {0,2,30,5},
-        {12,0,11, 12},
-        {9 ,4 ,0, 9},
-        {10, 6,6,0}
+    int v = 5;
+    int graph[10][10] = {
+        {0,     10,    3,     INT_MAX, INT_MAX},
+        {INT_MAX, 0,     1,     2,     INT_MAX},
+        {INT_MAX, 4,     0,     8,     2},
+        {INT_MAX, INT_MAX, INT_MAX, 0,     7},
+        {INT_MAX, INT_MAX, INT_MAX, 9,     0}
     };
-    Dijkstra(graph,0);
+
+    int distance[10]={INT_MAX,INT_MAX,INT_MAX,INT_MAX,INT_MAX};
+    int visited[10]={0};
+    int source = 0;
+
+    for (int i = 0; i < v; i++) {
+        distance[i] = INT_MAX;
+        visited[i] = 0;
+    }
+
+    Djikstras(graph, distance, v, source, visited);
+
+    printf("Shortest distances from vertex %d:\n", source);
+    for (int i = 0; i < v; i++) {
+        if (distance[i] == INT_MAX) {
+            printf("Vertex %d: Unreachable\n", i);
+        } else {
+            printf("Vertex %d: %d\n", i, distance[i]);
+        }
+    }
+
     return 0;
 }

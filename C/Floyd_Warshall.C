@@ -1,46 +1,27 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <math.h>
 
+int min(int a,int b){
+    return a<b?a:b;
+}
+void FW(int graph[10][10],int v){
+    for(int k=0;k<v;k++){
+        printf("\n\nNextITERATION\n");
+        for(int i=0;i<v;i++)
+            for(int j=0;j<v;j++){
+                if (graph[i][k]!=0xFFFF ||graph[k][j]!=0xFFFF)
+                    graph[i][j]=min(graph[i][j],graph[i][k]+graph[k][j]);
+            }
 
-void FW(int matrix[10][10],int e,int source, int v){
-        for (int k=0;k<v;k++){
-            for (int i=0;i<v;i++){
-                for(int j=0;j<v;j++){
-                    matrix[i][j]=matrix[i][j]>matrix[i][k]+matrix[k][j]?matrix[i][k]+matrix[k][j]:matrix[i][j];//find min
-                    matrix[j][j]=0;
-                }
-            }
-            printf("\nSTAGE %d:\n",k+1);
-            for(int i=0;i<v;i++){
-                for(int j=0;j<v;j++)
-                    printf("%8d",matrix[i][j]);
-                printf("\n");
-            }
-           
+        for(int i=0;i<v;i++){
+            for (int j=0;j<v;j++)
+                printf("%6d",graph[i][j]);
+            printf("\n");
         }
-}
-
-
-int main(){
-    printf("enter number of vertices and edges");
-    int v,e;
-    scanf("%d %d",&v,&e);
-    int matrix[10][10];
-
-
-    for(int i=0;i<v;i++)
-            for(int j=0;j<v;j++)
-                matrix[i][j]=0xFFFF;
-
-
-    printf("\n enter the weighted edge list");
-    for (int k=0;k<e;k++){
-        int vi,vj,weight;
-        scanf("%d %d %d",&vi,&vj,&weight);
-        matrix[vi][vj]=weight;
     }
-    FW(matrix,e,0,v);
-        return 0;
 }
-
+int main(){
+    int graph[10][10]={{0,2,3,4},{0xFFFF,0,0xFFFF,15},{0xFFFF,4,0,30},{0xFFFF,0xFFFF,0xFFFF,0}};
+    FW(graph,4);
+    return 0;
+}

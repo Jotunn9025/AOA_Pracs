@@ -1,21 +1,23 @@
 #include <stdio.h>
-void swap(int*a,int*b){
+void swap(int *a, int* b){
     int temp=*a;*a=*b;*b=temp;
 }
 void InsertionSort(int arr[],int n){
-    for(int k=1;k<n;k++){
-        int element=arr[k];
-        int j=k-1;
-        while (element<arr[j] && j>=0){//keep swapping till in right place
+    for (int i=1;i<n;i++){
+        int j=i-1;
+        int val=arr[i];
+        while(j>=0&& arr[j]>val){
             swap(&arr[j],&arr[j+1]);
+            arr[j]=val;;
             j--;
         }
     }
 }
 int main(){
-    int arr[10]={5,3,2,-1,0,-25,-65,65,100,43};
-    InsertionSort(arr,10);
-    for (int i = 0; i < 10; i++)
+    int arr[11]={9,8,7,0,5,3,2,1,2,6,-2};
+    InsertionSort(arr,11);
+    for(int i=0;i<11;i++){
         printf("%d\t",arr[i]);
+    }
     return 0;
 }

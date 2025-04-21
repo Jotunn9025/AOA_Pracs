@@ -1,44 +1,41 @@
 #include <stdio.h>
-void swap(int* a, int* b){//swap func
-    int temp = *a;
-    *a = *b;
-    *b = temp;
+#include <stdlib.h>
+#include <limits.h>
+
+void swap(int *a,int *b){
+    int temp=*a;
+    *a=*b;
+    *b=temp;
 }
-int partition(int arr[100],int l,int r){
-    int i,j,pivot;
-    j = l-1;
-    pivot = arr[r];
-    for (i = l; i < r ; i++){
-        if (arr[i]<pivot){//swap all smaller elements with j (2pointer approach to swapping but not from opp ends like in python)
-            j+=1;
-            swap(&arr[j], &arr[i]);
-        }
+
+int Partition(int arr[],int l, int r){
+    int val=arr[l];
+    int i=l+1,j=r;
+    while(i<=j){
+        while(arr[i]<val)
+            i++;
+        while(arr[j]>val)
+            j--;
+        if(i>=j)
+            break;
+        swap(&arr[i],&arr[j]);
     }
-    swap(&arr[j+1], &arr[r]);
-    return j+1;//retrun index
+    swap(&arr[l],&arr[j]);
+    return j;
 }
-void quicksort(int arr[100],int l,int r){
-    int pivt;
-    if (l<r){
-        pivt=partition(arr,l,r);
-        quicksort(arr,l,pivt-1);
-        quicksort(arr,pivt+1,r);
+
+void qs(int arr[],int l,int r){
+    if(l<r){
+        int pivt=Partition(arr,l,r);
+        qs(arr,l,pivt-1);
+        qs(arr,pivt+1,r);
     }
 }
 int main(){
-    int i,n,arr[100],l,r;
-    printf("enter number of elements\n");
-    scanf("%d",&n);
-    printf("\nenter elements\n");
-    for(i=0;i<n;i++){
-        scanf("%d",&arr[i]);
+    int arr[11]={9,8,7,0,5,3,2,1,2,6,-2};
+    qs(arr,0,10);
+    for(int i=0;i<11;i++){
+        printf("%d\t",arr[i]);
     }
-    l=0;
-    r=n-1;
-    quicksort(arr,l,r);
-    printf("\n\nSORTED:\n");
-    for(i=0;i<n;i++){
-        printf("%6d",arr[i]);
-}
-return 0;
+    return 0;
 }

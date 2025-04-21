@@ -1,28 +1,29 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+
 void swap(int*a,int*b){
     int temp=*a;*a=*b;*b=temp;
 }
-void SelectionSort(int arr[],int n){
-    int sorted_index=0;
-    
-    int mindex;
-    for(int k=0;k<n-1;k++){
-        int min=0x7FFFFFFF;//largest int in hex
-        mindex=sorted_index;//set mindex to end of sorteed region
-        for (int i=sorted_index;i<n;i++){//find smallest
-            if (arr[i]<min){
-                min=arr[i];
-                mindex=i;
+void SelectionSort(int n,int arr[]){
+    int sortedIndex=0;
+    for (int i=0;i<n-1;i++,sortedIndex++){
+        int min=INT_MAX;
+        int mindex=sortedIndex;
+        for (int j=sortedIndex;j<n;j++){
+            if(arr[j]<min){
+                min=arr[j];
+                mindex=j;
             }
         }
-        swap(&arr[sorted_index],&arr[mindex]);//swap smallest with end of sortedregion
-        sorted_index++;
+        swap(&arr[mindex],&arr[sortedIndex]);
     }
 }
 int main(){
-    int arr[10]={5,3,2,-1,0,-25,-65,65,100,43};
-    SelectionSort(arr,10);
-    for (int i = 0; i < 10; i++)
+    int arr[10]={9,8,7,0,5,3,2,1,4,6};
+    SelectionSort(10,arr);
+    for(int i=0;i<10;i++){
         printf("%d\t",arr[i]);
+    }
     return 0;
 }
